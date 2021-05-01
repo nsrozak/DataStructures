@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-// *** PUBLIC *** //
+// *** PUBLIC MEMBER FUNCTIONS *** //
 
 // CONSTRUCTORS AND DESTRUCTORS
 BST::BST(const BST& source){
@@ -22,7 +22,22 @@ bool BST::insert(int value) {
     return _insert(root, value);
 }
 
+bool BST::balance() {
+    int l_height = _height(root->left);
+    int r_height = _height(root->right);
+    int height_diff = l_height - r_height;
+        
+    if ((height_diff > 1) || (height_diff < -1))
+        return false;
+    else
+        return true;
+}
+
 // OBSERVERS
+int BST::height() const {
+    return _height(root);
+}
+
 void BST::printTree() const {
     _printTree(root);
 }
@@ -36,7 +51,7 @@ bool BST::DFS(int value) const {
     return _DFS(root, value);
 }
 
-// *** PRIVATE *** //
+// *** PRIVATE MEMBER FUNCTIONS *** //
 
 // CONSTRUCTORS AND DESTRUCTOR
 void BST::_BST(Node*& n, const Node* source_n) {
@@ -80,6 +95,13 @@ bool BST::_insert(Node* n, int value){
 }
 
 // OBSERVERS
+int BST::_height(Node* n) const {
+    if (n == 0)
+        return 0;
+    else 
+        return 1 + max(_height(n->left), _height(n->right));
+}
+
 void BST::_printTree(Node* n) const {
     if (n != 0) {
         _printTree(n->left);
