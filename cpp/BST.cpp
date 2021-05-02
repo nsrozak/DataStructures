@@ -91,7 +91,7 @@ BST::Node* BST::_balance(Node* n, int value) {
         n->right = _rightRotate(n->right);
         return _leftRotate(n);
     }
-    if ((balance_factor < -1) && (value > n->right->data)) {  // right, right
+    else if ((balance_factor < -1) && (value > n->right->data)) {  // right, right
         return _leftRotate(n);
     }
     else
