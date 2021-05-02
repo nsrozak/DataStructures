@@ -1,5 +1,6 @@
 #include "BST.h"
 #include <iostream>
+#include <queue>
 using namespace std;
 
 // *** PUBLIC MEMBER FUNCTIONS *** //
@@ -128,11 +129,38 @@ void BST::_printTree(Node* n) const {
 }
 
 bool BST::_BFS(Node* n, int value) const {
-    // to do 
-    return true;
+    if (n == 0)
+        return false;
+
+    std::queue<Node*> q;
+    q.push(n);
+    
+    while (q.empty() == false) {
+        Node* n_front = q.front();
+        q.pop();
+
+        if (n_front->data == value)
+            return true;
+
+        if (n_front->left != 0)
+            q.push(n_front->left);
+        if (n_front->right != 0)
+            q.push(n_front->right);
+    }
+    return false;
 }
 
 bool BST::_DFS(Node* n, int value) const {
-    // to do
-    return true;
+    if (n == 0) 
+        return false;
+
+    if (n->data == value)
+        return true;
+    
+    bool recursive_left = _DFS(n->left, value);
+    if (recursive_left == true)
+        return true;
+
+    bool recursive_right = _DFS(n->right, value);
+    return recursive_right;  
 }
