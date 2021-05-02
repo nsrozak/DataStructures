@@ -1,5 +1,6 @@
 import java.lang.Math;
 import java.util.Queue;
+import java.util.LinkedList;
 
 import javax.lang.model.util.ElementScanner6;
 
@@ -28,10 +29,10 @@ public class BST {
     public int height() { return height(root); }
     public void printTree() { printTree(root); }
     public boolean BFS(int value) {
-        Queue<Node> q;
+        Queue<Node> q = new LinkedList<>();
         q.add(root);
 
-        while (q.size > 0) {
+        while (q.size() > 0) {
            Node n_front = q.remove();
 
            if (n_front.data == value)
@@ -132,6 +133,6 @@ public class BST {
             return true;
         
         boolean recursive_right = DFS(value, n.right);
-        return resursive_right;
+        return recursive_right;
     } 
 }
