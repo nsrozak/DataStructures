@@ -2,23 +2,6 @@
 #define _BST_H
 
 class BST {
-    public:
-
-        // CONSTRUCTORS AND DESTRUCTORS
-        BST() { root = 0; }
-        BST(const BST& source);
-        ~BST();
-
-        // MODIFIERS
-        bool insert(int value);
-        bool balance();
-
-        // OBSERVERS
-        int height() const;
-        void printTree() const;
-        bool BFS(int value) const;
-        bool DFS(int value) const;
-
     private:
 
         struct Node {
@@ -33,13 +16,32 @@ class BST {
         void _clear(Node* n);
 
         // MODIFIERS
-        bool _insert(Node* n, int value);
+        Node* _insert(Node* n, int value);
+        Node* _balance(Node* n, int value);
+        Node* _leftRotate(Node* n);
+        Node* _rightRotate(Node* n);
 
         // OBSERVERS
         int _height(Node* n) const;
         void _printTree(Node* n) const;
         bool _BFS(Node* n, int value) const;
         bool _DFS(Node* n, int value) const;
+
+    public:
+
+        // CONSTRUCTORS AND DESTRUCTORS
+        BST() { root = 0; }
+        BST(const BST& source);
+        ~BST();
+
+        // MODIFIERS
+        void insert(int value);
+
+        // OBSERVERS
+        int height() const;
+        void printTree() const;
+        bool BFS(int value) const;
+        bool DFS(int value) const;
 };
 
 #endif

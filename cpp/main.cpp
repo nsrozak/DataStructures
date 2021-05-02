@@ -14,7 +14,6 @@ int main() {
     tree1.printTree();
     cout << endl;
     cout << "Tree 1 height: " << tree1.height() << endl;
-    cout << "Tree 1 balance status: " << tree1.balance() << endl;
 
     BST tree2 = tree1;
     cout << "Tree 2 values: " << endl;

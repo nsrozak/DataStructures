@@ -14,23 +14,8 @@ BST::~BST() {
 }
 
 // MODIFIERS
-bool BST::insert(int value) {
-    if (root == 0) {
-        root = new Node(value);
-        return true;
-    }
-    return _insert(root, value);
-}
-
-bool BST::balance() {
-    int l_height = _height(root->left);
-    int r_height = _height(root->right);
-    int height_diff = l_height - r_height;
-        
-    if ((height_diff > 1) || (height_diff < -1))
-        return false;
-    else
-        return true;
+void BST::insert(int value) {
+    root = _insert(root, value);
 }
 
 // OBSERVERS
@@ -73,25 +58,57 @@ void BST::_clear(Node* n) {
 }
 
 // MODIFIERS
-bool BST::_insert(Node* n, int value){
-    if (value == n->data)
-        return false;
-    if (value < n->data) {
-        if (n->left != 0)
-            return _insert(n->left, value);
-        else {
-            n->left = new Node(value);
-            return true;
-        }
+BST::Node* BST::_insert(Node* n, int value){
+    if (n == 0) {
+        n = new Node(value);
+        return n;
     }
-    else {
-        if (n->right != 0)
-            return _insert(n->right, value);
-        else {
-            n->right = new Node(value);
-            return true;
-        }
+    else if (value < n->data) {
+        n->left = _insert(n->left, value);
+        n = _balance(n, value);
     }
+    else if (value > n->data) {
+        n->right = _insert(n->right, value);
+        n = _balance(n, value);
+    }
+    return n;
+}
+
+BST::Node* BST::_balance(Node* n, int value) {
+    int l_height = _height(n->left);
+    int r_height = _height(n->right);
+    int balance_factor = l_height - r_height;
+
+    if ((balance_factor > 1) && (value < n->left->data)) {  // left, left
+        return _rightRotate(n);
+    }
+    else if ((balance_factor > 1) && (value > n->left->data)) {  // left, right
+        n->left = _leftRotate(n->left);
+        return _rightRotate(n);
+    }
+    else if ((balance_factor < -1) && (value < n->right->data)) {  // right, left
+        n->right = _rightRotate(n->right);
+        return _leftRotate(n);
+    }
+    if ((balance_factor < -1) && (value > n->right->data)) {  // right, right
+        return _leftRotate(n);
+    }
+    else
+        return n;
+}
+
+BST::Node* BST::_leftRotate(Node* n) {
+    Node* swap = n->right;
+    n->right = swap->left;
+    swap->left = n;
+    return swap;
+}
+
+BST::Node* BST::_rightRotate(Node* n){
+    Node* swap = n->left;
+    n->left = swap->right;
+    swap->right = n;
+    return swap;
 }
 
 // OBSERVERS
